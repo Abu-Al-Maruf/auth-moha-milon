@@ -1,12 +1,10 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
-
-
-  const {signInUser} = useContext(AuthContext);
-
+  const { signInUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -14,13 +12,16 @@ const Login = () => {
     const password = e.target.password.value;
     console.log(email, password);
 
+
     signInUser(email, password)
-    .then(res => {
-      console.log(res.user);
-    })
-    .catch(error => {
-      console.error(error);
-    })
+      .then((res) => {
+        console.log(res.user);
+        e.target.reset();
+        navigate('/')
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -69,7 +70,14 @@ const Login = () => {
                 Register
               </Link>
             </p>
+            <span className="bg-gray-600 p-2 w-2/4 rounded">
+              <Link className="text-xl pl-2 text-blue-600" to={""}>
+                Google
+              </Link>
+            </span>
+            
           </form>
+          
         </div>
       </div>
     </div>
